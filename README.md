@@ -13,7 +13,7 @@ Esta es una API RESTful construida con Node.js y Express que permite gestionar i
 1. Clonar el repositorio:
 
     ```bash
-    https://github.com/MaximilianoReyes/TitulacionAPI_Express.git
+    https://github.com/MaximilianoReyes/TitulacionAPI.git
     ```
 
 2. Instalar las dependencias:
