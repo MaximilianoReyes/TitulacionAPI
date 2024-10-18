@@ -40,7 +40,7 @@ export const deleteStudent = async (req, res) => {
 
 export const updateStudent = async (req, res) => {
     const { id } = req.params
-    const { name, generation, career, faculty } = req.body;
+    const { name, generation, career, faculty } = req.body
     try {
         const result = await connectionData.query(
             'UPDATE students_v2 SET name = $1, generation = $2, career = $3, faculty = $4 WHERE id = $5 RETURNING *',
