@@ -1,9 +1,9 @@
 import connectionData from "../utils/db.js"
 
 export const getAllCommittee = async (req, res) => {
+    const { total, page, totalPages, committee } = req.pagination;
     try {
-        const result = await connectionData.query('SELECT * FROM committees')
-        res.json(result.rows)
+        res.json({total, page, totalPages, committee})
     } catch (error) {
         res.status(500).json({ error: error.message })
     }

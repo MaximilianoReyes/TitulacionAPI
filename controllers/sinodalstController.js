@@ -1,9 +1,9 @@
 import connectionData from "../utils/db.js"
 
 export const getAllSinodalst = async (req, res) => {
+    const { total, page, totalPages, sinodalst } = req.pagination;
     try {
-        const result = await connectionData.query('SELECT * FROM sinodalst')
-        res.json(result.rows)
+        res.json({total, page, totalPages, sinodalst})
     } catch (error) {
         res.status(500).json({ error: error.message })
     }

@@ -1,9 +1,9 @@
 import connectionData from "../utils/db.js"
 
 export const getAllModalities = async (req, res) => {
+    const { total, page, totalPages, modalities } = req.pagination;
     try {
-        const result = await connectionData.query('SELECT * FROM titling_modalities')
-        res.json(result.rows)
+        res.json({total, page, totalPages, modalities})
     } catch (error) {
         res.status(500).json({ error: error.message })
     }

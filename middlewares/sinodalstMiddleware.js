@@ -22,6 +22,28 @@ export const validateUpdateSinodalst = [
         .withMessage('El rol debe estar en el rango de 1 a 3')
 ]
 
+export const recordCounter = async (req, res, next) => {
+    const { page = 1, limit = 10 } = req.query
+    const offset = (page - 1) * limit
+    try {
+      const totalResult = await connectionData.query('SELECT COUNT(*) FROM sinodalst')
+      const totalSinodalst = parseInt(totalResult.rows[0].count, 10)
+      const result = await connectionData.query(
+          'SELECT * FROM sinodalst ORDER BY id LIMIT $1 OFFSET $2',
+          [limit, offset]
+      )
+      req.pagination = {
+        total: totalSinodalst,
+        page: parseInt(page, 10),
+        totalPages: Math.ceil(totalSinodalst / limit),
+        sinodalst: result.rows,
+      }
+      next()
+    } catch (error) {
+      throw new Error('Error al recabar los registros')
+    }
+}
+
 export const findWorkerSinodalst = (action) => async (req, res, next) => {
     const { id } = req.params
     try {

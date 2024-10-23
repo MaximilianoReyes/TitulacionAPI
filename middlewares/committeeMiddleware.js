@@ -21,6 +21,28 @@ export const validateUpdateCommittee = [
     ...validateCommittee.slice(1)
 ]
 
+export const recordCounter = async (req, res, next) => {
+    const { page = 1, limit = 10 } = req.query
+    const offset = (page - 1) * limit
+    try {
+      const totalResult = await connectionData.query('SELECT COUNT(*) FROM committees')
+      const totalCommittee = parseInt(totalResult.rows[0].count, 10)
+      const result = await connectionData.query(
+          'SELECT * FROM committees ORDER BY id LIMIT $1 OFFSET $2',
+          [limit, offset]
+      )
+      req.pagination = {
+        total: totalCommittee,
+        page: parseInt(page, 10),
+        totalPages: Math.ceil(totalCommittee / limit),
+        committee: result.rows,
+      }
+      next()
+    } catch (error) {
+      throw new Error('Error al recabar los registros')
+    }
+}
+
 export const findWorker = (action) => async (req, res, next) => {
     const { id } = req.params
     try {
